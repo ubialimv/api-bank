@@ -18,4 +18,14 @@ export default class Transacao {
   }) {
     Object.assign(this, props);
   }
+
+  public toPlain(): any {
+    return {
+      idTransacao: this.idTransacao,
+      idConta: this.idConta,
+      valor: this.valor,
+      tipo: this.tipo,
+      dataTransacao: this.dataTransacao,
+    };
+  }
 }
