@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import App from '../application/app';
-import HomeController from '../domain/home/useCases/homeController';
+import HomeController from '../domain/modules/home/useCases/homeController';
 import homeRoutes from '../application/routes/home.route';
 
 const makeMiddlewares = () => [

@@ -1,4 +1,5 @@
-import { makeApp } from './shared/factory';
+import 'reflect-metadata';
+import { makeApp } from './shared/factories';
 
 const app = makeApp();
 
