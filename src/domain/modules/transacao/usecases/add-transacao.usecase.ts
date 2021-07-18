@@ -1,10 +1,10 @@
 import TransacaoRepositoryInterface from '../entities/interfaces/transacao.repository.interface';
-import Transacao from '../entities/transacao.entity';
+import Transacao, { TipoTransacao } from '../entities/transacao.entity';
 
 export interface AddTransacaoInterface {
   idConta: number;
   valor: number;
-  tipo: 'saque' | 'deposito';
+  tipo: TipoTransacao;
 }
 
 export default class AddTransacao {
@@ -12,6 +12,6 @@ export default class AddTransacao {
 
   async handle(data: AddTransacaoInterface) {
     const transacao = new Transacao({ ...data, dataTransacao: new Date() });
-    return this.repository.insert(transacao);
+    return this.repository.save(transacao);
   }
 }

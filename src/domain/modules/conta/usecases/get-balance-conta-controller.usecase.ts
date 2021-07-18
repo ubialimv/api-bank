@@ -10,16 +10,19 @@ export default class GetBalanceContaController extends BaseController {
 
   async handle(req: HttpRequest): Promise<HttpResponse> {
     try {
-      const { id } = req.body;
-      const conta = await this.repository.get(id);
+      const { id } = req.params;
+
+      const conta = await this.repository.findOne(Number(id));
 
       if (conta === undefined) {
         return this.NotFound(ContaExceptions.ACCOUNT_NOT_FOUND);
       }
 
       const saldo = conta.getBalance();
-      return this.ok({ saldo });
+
+      return this.ok(200, { saldo });
     } catch (error) {
+      console.log(error);
       return this.serverError(error.message);
     }
   }

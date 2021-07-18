@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import Transacao from '../../../../../domain/modules/transacao/entities/transacao.entity';
+import Transacao from '../../../../domain/modules/transacao/entities/transacao.entity';
 
-@Entity('Transacoes')
+@Entity('transacoes')
 class TransacaoModel {
   @PrimaryGeneratedColumn()
   readonly idTransacao?: number;

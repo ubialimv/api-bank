@@ -10,6 +10,7 @@ services:
       - '15432:5432'
     volumes:
       - api-bank-data:/var/lib/postgresql/data
+      - ./scripts/01-init-docker-databases.sql:/docker-entrypoint-initdb.d/01-init-docker-databases.sql
 
 volumes:
   api-bank-data:

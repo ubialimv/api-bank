@@ -11,9 +11,12 @@ export default class Pessoa {
     idPessoa?: number;
     nome: string;
     cpf: string;
-    dataNascimento: Date;
+    dataNascimento: string;
   }) {
-    Object.assign(this, props);
+    this.idPessoa = props.idPessoa;
+    this.nome = props.nome;
+    this.cpf = props.cpf;
+    this.dataNascimento = new Date(props.dataNascimento);
   }
 
   public toPlain(): any {
@@ -21,7 +24,7 @@ export default class Pessoa {
       idPessoa: this.idPessoa,
       nome: this.nome,
       cpf: this.cpf,
-      dataNascimento: this.dataNascimento,
+      dataNascimento: this.dataNascimento.toISOString(),
     };
   }
 }

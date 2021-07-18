@@ -1,7 +1,7 @@
 import { createConnection, Connection } from 'typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
-import DatabaseInterface from '../../../../domain/database/database.interface';
-import env from '../../../../shared/environments';
+import DatabaseInterface from '../../../domain/database/database.interface';
+import env from '../../../shared/environments';
 
 const config: PostgresConnectionOptions = {
   database: env.TYPE_ORM_DATABASE,
@@ -13,8 +13,8 @@ const config: PostgresConnectionOptions = {
   synchronize: env.TYPE_ORM_SYNCHRONIZE,
   logging: env.TYPE_ORM_LOGGING,
   entities: [
-    'src/infrastructure/repositories/typeorm/postgres/models/**/*.ts',
-    'dist/src/infrastructure/repositories/typeorm/postgres/models/**/*.js',
+    'src/infrastructure/typeorm/postgres/models/**/*.ts',
+    'dist/src/infrastructure/typeorm/postgres/models/**/*.js',
   ],
 };
 

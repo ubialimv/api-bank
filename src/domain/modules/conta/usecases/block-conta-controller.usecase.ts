@@ -10,8 +10,9 @@ export default class BlockContaController extends BaseController {
 
   async handle(req: HttpRequest): Promise<HttpResponse> {
     try {
-      const { id } = req.body;
-      const conta = await this.repository.get(id);
+      const { id } = req.params;
+
+      const conta = await this.repository.findOne(Number(id));
 
       if (conta === undefined) {
         return this.NotFound(ContaExceptions.ACCOUNT_NOT_FOUND);
@@ -19,8 +20,9 @@ export default class BlockContaController extends BaseController {
 
       conta.block();
 
-      await this.repository.update(conta, id);
-      return this.ok(conta);
+      await this.repository.save(conta);
+
+      return this.ok(200, conta.toPlain());
     } catch (error) {
       return this.serverError(error.message);
     }

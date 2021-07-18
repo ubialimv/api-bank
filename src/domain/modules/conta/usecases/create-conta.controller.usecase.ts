@@ -12,8 +12,8 @@ export default class CreateContaController extends BaseController {
     try {
       const conta = new Conta(req.body);
 
-      const createdConta = await this.repository.insert(conta);
-      return this.ok(createdConta);
+      const createdConta = await this.repository.save(conta);
+      return this.ok(200, createdConta.toPlain());
     } catch (error) {
       return this.serverError(error.message);
     }

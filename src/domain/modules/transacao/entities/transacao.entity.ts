@@ -1,3 +1,10 @@
+export enum EnumTipoTransacao {
+  SAQUE = 'saque',
+  DEPOSITO = 'deposito',
+}
+
+export type TipoTransacao = 'saque' | 'deposito';
+
 export default class Transacao {
   readonly idTransacao?: number;
 
@@ -5,7 +12,7 @@ export default class Transacao {
 
   readonly valor!: number;
 
-  readonly tipo!: 'saque' | 'deposito';
+  readonly tipo!: TipoTransacao;
 
   readonly dataTransacao!: Date;
 
@@ -13,7 +20,7 @@ export default class Transacao {
     idTransacao?: number;
     idConta: number;
     valor: number;
-    tipo: 'saque' | 'deposito';
+    tipo: TipoTransacao;
     dataTransacao: Date;
   }) {
     Object.assign(this, props);
@@ -25,7 +32,7 @@ export default class Transacao {
       idConta: this.idConta,
       valor: this.valor,
       tipo: this.tipo,
-      dataTransacao: this.dataTransacao,
+      dataTransacao: this.dataTransacao.toISOString(),
     };
   }
 }

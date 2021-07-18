@@ -8,11 +8,12 @@ dotenv.config({ path: envPath });
 
 export default {
   PORT: Number(process.env.PORT || 3000),
-  TYPE_ORM_DATABASE: process.env.TYPE_ORM_DATABASE,
-  TYPE_ORM_HOST: process.env.TYPE_ORM_HOST,
+
+  TYPE_ORM_DATABASE: String(process.env.TYPE_ORM_DATABASE),
+  TYPE_ORM_HOST: String(process.env.TYPE_ORM_HOST),
   TYPE_ORM_PORT: Number(process.env.TYPE_ORM_PORT),
-  TYPE_ORM_PASSWORD: process.env.TYPE_ORM_PASSWORD,
-  TYPE_ORM_USERNAME: process.env.TYPE_ORM_USERNAME,
-  TYPE_ORM_SYNCHRONIZE: Boolean(process.env.TYPE_ORM_SYNCHRONIZE),
+  TYPE_ORM_PASSWORD: String(process.env.TYPE_ORM_PASSWORD),
+  TYPE_ORM_USERNAME: String(process.env.TYPE_ORM_USERNAME),
+  TYPE_ORM_SYNCHRONIZE: Boolean(process.env.TYPE_ORM_SYNCHRONIZE === 'true'),
   TYPE_ORM_LOGGING: Boolean(process.env.TYPE_ORM_LOGGING === 'true'),
 };
