@@ -4,11 +4,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "ts-node dist/src/server.js",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint . --ext .ts",
     "clean": "rm -rf dist",
     "copy-contracts": "mkdir -p dist/src/contracts && cp src/contracts/*.yaml dist/src/contracts",
-    "build": "yarn run clean; tsc -p .; yarn run copy-contracts"
+    "copy-env": "mkdir -p dist/environments && cp environments/.env.local dist/environments/.env",
+    "build": "yarn run clean; tsc -p .; yarn run copy-contracts; yarn run copy-env"
   },
   "dependencies": {
     "compression": "^1.7.4",
