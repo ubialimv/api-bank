@@ -25,9 +25,9 @@ import FindTransacaoController from '../domain/modules/transacao/usecases/find-t
 import contaRoutes from '../application/routes/conta.route';
 import PostgresHelper from '../infrastructure/typeorm/postgres/typeorm.postgres.helper';
 
+const makePessoaRepository = () => new PessoaRepository();
 const makeContaRepository = () => new ContaRepository(makePessoaRepository());
 const makeTransacaoRepository = () => new TransacaoRepository();
-const makePessoaRepository = () => new PessoaRepository();
 
 const makeBlockContaController = () =>
   new BlockContaController(makeContaRepository());
@@ -62,15 +62,14 @@ const makeMiddlewares = () => [
   openApiValidatorMiddleware,
 ];
 
-const makeApp = () => {
-  return new App({
+const makeApp = () =>
+  new App({
     port: 3000,
     middleWares: makeMiddlewares(),
     routes: [contaRoutes],
     spec: OPEN_API_SPEC_FILE_LOCATION,
     errorHandler,
   });
-};
 
 export {
   makeDatabase,

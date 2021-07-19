@@ -46,13 +46,70 @@
     "import/no-extraneous-dependencies": [
       "error",
       { "devDependencies": ["**/test/**"] }
-    ]    
+    ],
+    "import/no-cycle": "off",
+    "boundaries/element-types": [
+      2,
+      {
+        "default": "disallow",
+        "rules": [
+          {
+            "from": "domain",
+            "allow": [["domain"], ["shared"]]
+          },
+          {
+            "from": "infrastructure",
+            "allow": [
+              ["infrastructure"],
+              ["domain"],
+              ["shared", { "elementName": "environments" }]
+            ]
+          },
+          {
+            "from": "application",
+            "allow": [
+              ["application"],
+              ["domain"],
+              ["infrastructure"],
+              ["shared"]
+            ]
+          },
+          {
+            "from": "shared",
+            "allow": ["shared", "application", "domain", "infrastructure"]
+          }
+        ]
+      }
+    ]
   },
   "settings": {
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
-    }
+    },
+    "boundaries/elements": [
+      {
+        "type": "shared",
+        "mode": "file",
+        "pattern": "src/shared/**/*.ts",
+        "capture": ["category", "elementName"]
+      },
+      {
+        "type": "infrastructure",
+        "mode": "file",
+        "pattern": "src/infrastructure/**/*.ts"
+      },
+      {
+        "type": "domain",
+        "mode": "file",
+        "pattern": "src/domain/**/*.ts"
+      },
+      {
+        "type": "application",
+        "mode": "file",
+        "pattern": "src/application/**/*.ts"
+      }
+    ]
   }
 }

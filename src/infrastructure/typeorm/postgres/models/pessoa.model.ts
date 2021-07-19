@@ -20,18 +20,6 @@ class PessoaModel {
   @OneToMany(() => ContaModel, (conta) => conta.pessoa)
   contas!: Conta[];
 
-  // constructor(
-  //   nome: string,
-  //   cpf: string,
-  //   dataNascimento: Date,
-  //   idPessoa?: number,
-  // ) {
-  //   this.nome = nome;
-  //   this.cpf = cpf;
-  //   this.dataNascimento = dataNascimento;
-  //   this.idPessoa = idPessoa;
-  // }
-
   static from(domain: Pessoa): PessoaModel {
     const newPessoaModel = new PessoaModel();
 

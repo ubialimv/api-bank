@@ -1,11 +1,5 @@
+import GeneralError from '../errors/general.error';
 import { HttpRequest, HttpResponse } from '../http/http-helper';
-
-class GeneralError extends Error {
-  constructor(message: string) {
-    super();
-    this.message = message;
-  }
-}
 
 export default abstract class BaseController {
   public abstract handle(req: HttpRequest): Promise<HttpResponse>;
@@ -13,7 +7,7 @@ export default abstract class BaseController {
   public ok<T>(statusCode: number, data?: T): HttpResponse {
     const response: HttpResponse = { statusCode };
 
-    if (!!data) {
+    if (data) {
       response.body = data;
     }
 

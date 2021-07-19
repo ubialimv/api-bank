@@ -1,19 +1,19 @@
 import ContaExceptions from './exceptions';
 
 export default class Conta {
-  private idConta?: number;
+  private readonly idConta?: number;
 
-  private idPessoa!: number;
+  private readonly idPessoa!: number;
 
   private saldo!: number;
 
-  private limiteSaqueDiario!: number;
+  private readonly limiteSaqueDiario!: number;
 
   private flagAtivo!: boolean;
 
-  private tipoConta!: number;
+  private readonly tipoConta!: number;
 
-  private dataCriacao!: Date;
+  private readonly dataCriacao!: Date;
 
   constructor(props: {
     idConta?: number;

@@ -62,11 +62,11 @@ export default class App {
     }
   }
 
-  private loadErrorHandler = (errorHandler?: ErrorHandlerInterface) => {
+  private loadErrorHandler(errorHandler?: ErrorHandlerInterface) {
     if (typeof errorHandler === 'function') {
       this.application.use(errorHandler);
     }
-  };
+  }
 
   public listen() {
     return this.application.listen(this.port, () => {
