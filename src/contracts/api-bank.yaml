@@ -1,0 +1,270 @@
+openapi: '3.0.2'
+info:
+  title: api_bank
+  version: '1.0'
+paths:
+  /contas:
+    post:
+      summary: Cria uma conta
+      tags:
+        - /contas
+      description: >-
+        Cria uma nova conta. Utilize a pessoa com o id 1 para a criação da conta.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestBodyConta'
+      responses:
+        '200':
+          description: Conta cadastrada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseBodyConta'
+        '400':
+          $ref: '#/components/responses/400_Bad_Request'
+        '500':
+          $ref: '#/components/responses/500_Internal'
+
+  /contas/{id}/bloqueio:
+    post:
+      summary: Bloqueia uma conta
+      tags:
+        - /contas/{id}
+      description: Atualiza o status da conta para inativo, bloqueando operacoes
+      parameters:
+        - $ref: '#/components/parameters/ContaIdParamPath'
+      responses:
+        '204':
+          $ref: '#/components/responses/204_No_Content'
+        '400':
+          $ref: '#/components/responses/400_Bad_Request'
+        '500':
+          $ref: '#/components/responses/500_Internal'
+
+  /contas/{id}/deposito:
+    post:
+      summary: Deposito em uma conta
+      tags:
+        - /contas/{id}
+      description: Faz uma operacao de deposito na conta ativa.
+      parameters:
+        - $ref: '#/components/parameters/ContaIdParamPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestBodySaqueDeposito'
+      responses:
+        '204':
+          $ref: '#/components/responses/204_No_Content'
+        '400':
+          $ref: '#/components/responses/400_Bad_Request'
+        '500':
+          $ref: '#/components/responses/500_Internal'
+  /contas/{id}/extrato:
+    get:
+      summary: Consulta extrato de uma conta
+      tags:
+        - /contas/{id}
+      description: Retorna uma lista de transacoes de saque/deposito realizadas na conta
+      parameters:
+        - $ref: '#/components/parameters/ContaIdParamPath'
+      responses:
+        '200':
+          description: Operacao realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseBodyExtrato'
+        '500':
+          $ref: '#/components/responses/500_Internal'
+  /contas/{id}/saldo:
+    get:
+      summary: Consulta saldo de uma conta
+      tags:
+        - /contas/{id}
+      description: Consulta o saldo de uma conta ativa
+      parameters:
+        - $ref: '#/components/parameters/ContaIdParamPath'
+      responses:
+        '200':
+          description: Operacao realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - saldo
+                properties:
+                  saldo:
+                    type: number
+        '500':
+          $ref: '#/components/responses/500_Internal'
+  /contas/{id}/saque:
+    post:
+      summary: Saque em uma conta
+      tags:
+        - /contas/{id}
+      description: Realiza operacao de saque em uma conta ativa.
+      parameters:
+        - $ref: '#/components/parameters/ContaIdParamPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestBodySaqueDeposito'
+      responses:
+        '204':
+          $ref: '#/components/responses/204_No_Content'
+        '400':
+          $ref: '#/components/responses/400_Bad_Request'
+        '500':
+          $ref: '#/components/responses/500_Internal'
+
+components:
+  schemas:
+    RequestBodyConta:
+      type: object
+      required:
+        - idPessoa
+        - tipoConta
+      properties:
+        idPessoa:
+          type: integer
+        saldo:
+          type: number
+          default: 0
+        limiteSaqueDiario:
+          type: number
+          default: 0
+        flagAtivo:
+          type: boolean
+          default: true
+        tipoConta:
+          type: integer
+        dataCriacao:
+          type: string
+          format: date-time
+    ResponseBodyConta:
+      type: object
+      required:
+        - idConta
+        - idPessoa
+        - saldo
+        - limiteSaqueDiario
+        - flagAtivo
+        - tipoConta
+        - dataCriacao
+      properties:
+        idConta:
+          type: integer
+        idPessoa:
+          type: integer
+        saldo:
+          type: number
+          default: 0
+        limiteSaqueDiario:
+          type: number
+          default: 0
+        flagAtivo:
+          type: boolean
+          default: true
+        tipoConta:
+          type: integer
+        dataCriacao:
+          type: string
+          format: date-time
+    ResponseError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: object
+            required:
+              - path
+              - message
+              - errorCode
+            properties:
+              path:
+                type: string
+              message:
+                type: string
+              errorCode:
+                type: string
+    RequestBodySaqueDeposito:
+      type: object
+      required:
+        - valor
+      properties:
+        valor:
+          type: number
+          minimum: 1
+    ResponseBodyExtrato:
+      type: array
+      items:
+        type: object
+        required:
+          - idTransacao
+          - idConta
+          - valor
+          - tipo
+          - dataTransacao
+        properties:
+          idTransacao:
+            type: integer
+          idConta:
+            type: integer
+          valor:
+            type: number
+          tipo:
+            type: string
+            enum:
+              - saque
+              - deposito
+          dataTransacao:
+            type: string
+            format: date-time
+
+  responses:
+    204_No_Content:
+      description: Operacao realizada com sucesso
+    400_Bad_Request:
+      description: Erro de sintaxe JSON no corpo do request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseError'
+    404_Not_Found:
+      description: Recurso nao encontrado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseError'
+    422_Business_Error:
+      description: A requisição está bem formada mas nao pode ser processada.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseError'
+    500_Internal:
+      description: O servidor encontrou uma situação com a qual não sabe lidar.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseError'
+
+  parameters:
+    ContaIdParamPath:
+      in: path
+      name: id
+      required: true
+      description: Id da conta
+      schema:
+        type: integer
